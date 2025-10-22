@@ -493,29 +493,37 @@ const QRAccessControl = () => {
                     </div>
                   ) : (
                     users.map(user => (
-                      <div key={user.id} className={`border-2 rounded-xl p-4 ${user.active ? 'bg-white hover:shadow-md' : 'bg-gray-50 opacity-60'}`}>
-                        <div className="flex gap-4 items-start">
-                          <div className="flex-shrink-0" style={{width: '100px'}}>
+                      <div key={user.id} className={`border-2 rounded-xl p-4 transition ${user.active ? 'bg-white hover:shadow-md border-gray-200' : 'bg-gray-50 opacity-60 border-gray-300'}`}>
+                        <div className="flex flex-col sm:flex-row gap-4">
+                          <div className="flex-shrink-0 w-32 h-32 mx-auto sm:mx-0">
                             {generateQRCodeJSX(user.qrCode)}
                           </div>
-                          <div className="flex-1 min-w-0">
-                            <div className="flex justify-between items-start">
-                              <div className="flex-1 min-w-0 mr-2">
-                                <h3 className="font-bold text-lg truncate">{user.name}</h3>
-                                {user.email && <p className="text-sm text-gray-600 truncate">{user.email}</p>}
-                                <p className="text-xs text-gray-500 font-mono mt-1 bg-gray-100 px-2 py-1 rounded inline-block break-all">{user.qrCode}</p>
-                              </div>
-                              <div className="flex flex-col gap-1 ml-2 flex-shrink-0">
-                                <button
-                                  onClick={() => toggleUserStatus(user.id)}
-                                  className={`px-3 py-1 rounded text-xs font-medium ${user.active ? 'bg-green-100 text-green-700 hover:bg-green-200' : 'bg-red-100 text-red-700 hover:bg-red-200'}`}
-                                >
-                                  {user.active ? '✓ Activo' : '✗ Inactivo'}
-                                </button>
-                                <button onClick={() => deleteUser(user.id)} className="p-2 text-red-600 hover:bg-red-50 rounded flex items-center justify-center">
-                                  <Trash2 size={16} />
-                                </button>
-                              </div>
+                          <div className="flex-1 min-w-0 flex flex-col justify-between">
+                            <div>
+                              <h3 className="font-bold text-lg text-gray-900 mb-1">{user.name}</h3>
+                              {user.email && <p className="text-sm text-gray-600 mb-2">{user.email}</p>}
+                              <p className="text-xs text-gray-500 font-mono bg-gray-100 px-2 py-1 rounded inline-block break-all max-w-full">
+                                {user.qrCode}
+                              </p>
+                            </div>
+                            <div className="flex gap-2 mt-3">
+                              <button
+                                onClick={() => toggleUserStatus(user.id)}
+                                className={`px-3 py-2 rounded-lg text-sm font-medium transition ${
+                                  user.active 
+                                    ? 'bg-green-100 text-green-700 hover:bg-green-200' 
+                                    : 'bg-red-100 text-red-700 hover:bg-red-200'
+                                }`}
+                              >
+                                {user.active ? '✓ Activo' : '✗ Inactivo'}
+                              </button>
+                              <button 
+                                onClick={() => deleteUser(user.id)} 
+                                className="px-3 py-2 text-red-600 hover:bg-red-50 rounded-lg transition flex items-center gap-1"
+                              >
+                                <Trash2 size={16} />
+                                <span className="text-sm">Eliminar</span>
+                              </button>
                             </div>
                           </div>
                         </div>
