@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { QrCode, Users, History, UserPlus, Camera, CheckCircle, XCircle, Download, Clock, Upload, FileSpreadsheet, Trash2 } from 'lucide-react';
+import * as XLSX from 'xlsx';
 
 const QRAccessControl = () => {
   const [activeTab, setActiveTab] = useState('users');
@@ -114,8 +115,6 @@ const QRAccessControl = () => {
     
     try {
       const arrayBuffer = await file.arrayBuffer();
-      const XLSX = await import('https://cdn.sheetjs.com/xlsx-0.20.0/package/xlsx.mjs');
-      
       const workbook = XLSX.read(arrayBuffer);
       const sheetName = workbook.SheetNames[0];
       const sheet = workbook.Sheets[sheetName];
@@ -165,15 +164,13 @@ const QRAccessControl = () => {
     }
   };
 
-  const exportToExcel = async () => {
+  const exportToExcel = () => {
     if (users.length === 0) {
       alert('No hay usuarios para exportar');
       return;
     }
 
     try {
-      const XLSX = await import('https://cdn.sheetjs.com/xlsx-0.20.0/package/xlsx.mjs');
-      
       const exportData = users.map(user => ({
         'Nombre': user.name,
         'Email': user.email,
@@ -283,15 +280,13 @@ const QRAccessControl = () => {
     setTimeout(() => setScanResult(null), 3000);
   };
 
-  const exportAccessLog = async () => {
+  const exportAccessLog = () => {
     if (accessLog.length === 0) {
       alert('No hay registros para exportar');
       return;
     }
 
     try {
-      const XLSX = await import('https://cdn.sheetjs.com/xlsx-0.20.0/package/xlsx.mjs');
-      
       const exportData = accessLog.map(log => ({
         'Nombre': log.userName,
         'Código QR': log.qrCode,
